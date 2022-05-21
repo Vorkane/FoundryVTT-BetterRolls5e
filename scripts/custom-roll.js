@@ -681,7 +681,7 @@ export class CustomItemRoll {
 		// Check if we need to consume ammo. It will be consumed later (so that attack calcs work properly)
 		// This consumes even if consuming is globally disabled. Roll repeats need to consume ammo.
 		let ammo = null;
-		let ammoUpdate = {};
+		let ammoUpdate = null;
 		if (actor && item) {
 			const request = this.params.useCharge;
 			const consume = item.data.data.consume;
@@ -692,7 +692,7 @@ export class CustomItemRoll {
 					this.error = true;
 					return;
 				}
-				ammoUpdate = usage.resourceUpdates || {};
+				ammoUpdate = usage.resourceUpdates || [];
 			}
 		}
 
