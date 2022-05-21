@@ -702,12 +702,8 @@ export class CustomItemRoll {
 		}
 
 		// Consume ammo (now that fields have been processed)
-		// Bugfix(01/05/2022) for dnd5e system version 1.6.0: ammoUpdate may be an array containing the actual object we're interested in
-		if(ammo && Array.isArray(ammoUpdate)){ ammoUpdate = ammoUpdate[0]; }
-		
-		if (ammo && !isObjectEmpty(ammoUpdate)) {
-			await ammo.update(ammoUpdate);
-		}
+		if (ammoUpdate?.length)
+			await actor?.updateEmbeddedDocuments("Item", ammoUpdate);
 
 		// Post-build item updates
 		if (item) {
@@ -1203,14 +1199,14 @@ export class CustomItemRoll {
 
 		let actorUpdates = {};
 		let itemUpdates = {};
-		let resourceUpdates = {};
+		let resourceUpdates = [];
 
 		// Merges update data from _getUsageUpdates() into the result dictionaries
 		// Note: mergeObject() also resolves "." nesting which is not what we want
 		function mergeUpdates(updates) {
 			actorUpdates = { ...actorUpdates, ...(updates.actorUpdates ?? {})};
 			itemUpdates = { ...itemUpdates, ...(updates.itemUpdates ?? {})};
-			resourceUpdates = { ...resourceUpdates, ...(updates.resourceUpdates ?? {})};
+			resourceUpdates.push(...(updates.resourceUpdates ?? []));
 		}
 
 		const itemData = item.data.data;
@@ -1274,10 +1270,8 @@ export class CustomItemRoll {
 		if (!isObjectEmpty(itemUpdates)) await item.update(itemUpdates);
 		if (!isObjectEmpty(actorUpdates)) await actor.update(actorUpdates);
 
-		if (!isObjectEmpty(resourceUpdates)) {
-			const resource = actor.items.get(itemData.consume?.target);
-			if (resource) await resource.update(resourceUpdates);
-		}
+		if (resourceUpdates.length)
+			await actor?.updateEmbeddedDocuments("Item", resourceUpdates);
 
 		// Destroy item if it gets consumed
 		if (itemUpdates["data.quantity"] === 0 && autoDestroy) {
