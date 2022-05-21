@@ -701,9 +701,10 @@ export class CustomItemRoll {
 			await this._processField(field);
 		}
 
+		// Consume ammo (now that fields have been processed)
 		// Bugfix(01/05/2022) for dnd5e system version 1.6.0: ammoUpdate may be an array containing the actual object we're interested in
 		if(ammo && Array.isArray(ammoUpdate)){ ammoUpdate = ammoUpdate[0]; }
-
+		
 		if (ammo && !isObjectEmpty(ammoUpdate)) {
 			await ammo.update(ammoUpdate);
 		}
