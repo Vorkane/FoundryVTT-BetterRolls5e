@@ -12,16 +12,9 @@ If you are feeling generous, and would like to support my work, you can do so th
 - J2BA Animations: Only for attack rolls. If set to play on damage rolls it won't work.
 
 ## Installation
-### Method 1
-- Start up Foundry and click "Install Module" in the "Add-On Modules" tab.
-- Search for "Better Rolls" in the pop up window.
-- Click "Install" and it should appear in your modules list.
-- Enjoy!
-
-### Method 2
 - Start up Foundry and click "Install Module" in the "Add-On Modules" tab.
 - Paste one of the following:
-  - Latest release: `https://raw.githubusercontent.com/RedReign/FoundryVTT-BetterRolls5e/master/betterrolls5e/module.json`
+  - Latest release: `https://raw.githubusercontent.com/Vorkane/FoundryVTT-BetterRolls5e/master/module.json`
   - The module.json listed in any of the releases (for either an older version or an alpha version)
 - Click "Install" and it should appear in your modules list.
 - Enjoy!
